@@ -11,6 +11,7 @@ import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
+import static android.graphics.Color.BLACK;
 import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
 import static android.graphics.Color.YELLOW;
@@ -58,6 +59,7 @@ public class MainActivity extends RoboActivity {
             @Override
             public void onStart() {
                 btn_start.setText("Stop");
+                setBackgroundColor(BLACK);
             }
 
             @Override
