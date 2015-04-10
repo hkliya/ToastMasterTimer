@@ -5,8 +5,6 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 
-import static java.lang.String.format;
-
 public class ToastMasterTimer {
 
     @Inject
@@ -14,9 +12,11 @@ public class ToastMasterTimer {
 
     private int minutes;
     private CountDownTimer timer;
+    private TimerListener timerListener;
 
-    public ToastMasterTimer(TextView tv_countDownTimer) {
+    public ToastMasterTimer(TextView tv_countDownTimer, TimerListener timerListener) {
         this.tv_countDownTimer = tv_countDownTimer;
+        this.timerListener = timerListener;
     }
 
     public boolean isRunning() {
@@ -25,8 +25,9 @@ public class ToastMasterTimer {
 
     public void cancel() {
         timer.cancel();
+        timerListener.onStop();
         timer = null;
-        tv_countDownTimer.setText(formatTime(getMillis()));
+        timerListener.showTimer(getMillis());
     }
 
     public void start() {
@@ -34,7 +35,10 @@ public class ToastMasterTimer {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                tv_countDownTimer.setText(formatTime(millisUntilFinished));
+                if (isTimeToShowGreenCard(millisUntilFinished)) {
+                    timerListener.showGreenCard();
+                }
+                timerListener.showTimer(millisUntilFinished);
             }
 
             @Override
@@ -42,12 +46,11 @@ public class ToastMasterTimer {
             }
         };
         timer.start();
+        timerListener.onStart();
     }
 
-    private String formatTime(long millisUntilFinished) {
-        int minutes = (int) (millisUntilFinished / 60 / 1000);
-        int seconds = (int) (millisUntilFinished / 1000 % 60);
-        return format("%02d:%02d", minutes, seconds);
+    private boolean isTimeToShowGreenCard(long millisUntilFinished) {
+        return millisUntilFinished <= 30 * 1000;
     }
 
     private int getMillis() {
@@ -56,5 +59,13 @@ public class ToastMasterTimer {
 
     public void setTimeInMinutes(int minutes) {
         this.minutes = minutes;
+    }
+
+    public void toggle() {
+        if (isRunning()) {
+            cancel();
+        } else {
+            start();
+        }
     }
 }

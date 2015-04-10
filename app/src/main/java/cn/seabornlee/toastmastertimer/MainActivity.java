@@ -1,14 +1,12 @@
 package cn.seabornlee.toastmastertimer;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.inject.Inject;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
@@ -29,19 +27,54 @@ public class MainActivity extends RoboActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final ToastMasterTimer timer = new ToastMasterTimer(tv_countDownTimer);
+        final ToastMasterTimer timer = new ToastMasterTimer(tv_countDownTimer, new TimerListener() {
+            @Override
+            public void showTimer(long millisUntilFinished) {
+                tv_countDownTimer.setText(formatTime(millisUntilFinished));
+            }
+
+            @Override
+            public void showGreenCard() {
+                tv_countDownTimer.getRootView().setBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void showYellowCard() {
+
+            }
+
+            @Override
+            public void showRedCard() {
+
+            }
+
+            @Override
+            public void ringTheBell() {
+
+            }
+
+            @Override
+            public void onStart() {
+                btn_start.setText("Stop");
+            }
+
+            @Override
+            public void onStop() {
+                btn_start.setText("Start");
+            }
+
+            private String formatTime(long millisUntilFinished) {
+                int minutes = (int) (millisUntilFinished / 60 / 1000);
+                int seconds = (int) (millisUntilFinished / 1000 % 60);
+                return format("%02d:%02d", minutes, seconds);
+            }
+        });
 
         timer.setTimeInMinutes(1);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timer.isRunning()) {
-                    timer.cancel();
-                    btn_start.setText("Start");
-                } else {
-                    timer.start();
-                    btn_start.setText("Stop");
-                }
+                timer.toggle();
             }
         });
     }
