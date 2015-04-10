@@ -1,6 +1,5 @@
 package cn.seabornlee.toastmastertimer;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +11,9 @@ import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+import static android.graphics.Color.YELLOW;
 import static java.lang.String.format;
 
 @ContentView(R.layout.activity_main)
@@ -27,7 +29,7 @@ public class MainActivity extends RoboActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final ToastMasterTimer timer = new ToastMasterTimer(tv_countDownTimer, new TimerListener() {
+        final ToastMasterTimer timer = new ToastMasterTimer(new TimerListener() {
             @Override
             public void showTimer(long millisUntilFinished) {
                 tv_countDownTimer.setText(formatTime(millisUntilFinished));
@@ -35,17 +37,17 @@ public class MainActivity extends RoboActivity {
 
             @Override
             public void showGreenCard() {
-                tv_countDownTimer.getRootView().setBackgroundColor(Color.GREEN);
+                setBackgroundColor(GREEN);
             }
 
             @Override
             public void showYellowCard() {
-
+                setBackgroundColor(YELLOW);
             }
 
             @Override
             public void showRedCard() {
-
+                setBackgroundColor(RED);
             }
 
             @Override
@@ -77,6 +79,10 @@ public class MainActivity extends RoboActivity {
                 timer.toggle();
             }
         });
+    }
+
+    private void setBackgroundColor(int color) {
+        tv_countDownTimer.getRootView().setBackgroundColor(color);
     }
 
     @Override

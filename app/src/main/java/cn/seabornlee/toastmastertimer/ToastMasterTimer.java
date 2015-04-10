@@ -1,21 +1,13 @@
 package cn.seabornlee.toastmastertimer;
 
 import android.os.CountDownTimer;
-import android.widget.TextView;
-
-import com.google.inject.Inject;
 
 public class ToastMasterTimer {
-
-    @Inject
-    private TextView tv_countDownTimer;
-
     private int minutes;
     private CountDownTimer timer;
     private TimerListener timerListener;
 
-    public ToastMasterTimer(TextView tv_countDownTimer, TimerListener timerListener) {
-        this.tv_countDownTimer = tv_countDownTimer;
+    public ToastMasterTimer(TimerListener timerListener) {
         this.timerListener = timerListener;
     }
 
@@ -35,18 +27,29 @@ public class ToastMasterTimer {
 
             @Override
             public void onTick(long millisUntilFinished) {
+                timerListener.showTimer(millisUntilFinished);
+
+                if (isTimeToShowYellowCard(millisUntilFinished)) {
+                    timerListener.showYellowCard();
+                    return;
+                }
+
                 if (isTimeToShowGreenCard(millisUntilFinished)) {
                     timerListener.showGreenCard();
                 }
-                timerListener.showTimer(millisUntilFinished);
             }
 
             @Override
             public void onFinish() {
+                timerListener.showRedCard();
             }
         };
         timer.start();
         timerListener.onStart();
+    }
+
+    private boolean isTimeToShowYellowCard(long millisUntilFinished) {
+        return millisUntilFinished <= 15 * 1000;
     }
 
     private boolean isTimeToShowGreenCard(long millisUntilFinished) {
