@@ -1,17 +1,49 @@
 package cn.seabornlee.toastmastertimer;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.inject.Inject;
 
-public class MainActivity extends Activity {
+import roboguice.activity.RoboActivity;
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
+
+import static java.lang.String.format;
+
+@ContentView(R.layout.activity_main)
+public class MainActivity extends RoboActivity {
+
+    @InjectView(R.id.tv_timer)
+    private TextView tv_countDownTimer;
+
+    @InjectView(R.id.btn_start)
+    private Button btn_start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        final ToastMasterTimer timer = new ToastMasterTimer(tv_countDownTimer);
+
+        timer.setTimeInMinutes(1);
+        btn_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (timer.isRunning()) {
+                    timer.cancel();
+                    btn_start.setText("Start");
+                } else {
+                    timer.start();
+                    btn_start.setText("Stop");
+                }
+            }
+        });
     }
 
     @Override
