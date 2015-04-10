@@ -11,18 +11,18 @@ public class ToastMasterTimer {
         this.timerListener = timerListener;
     }
 
-    public boolean isRunning() {
+    private boolean isRunning() {
         return timer != null;
     }
 
-    public void cancel() {
+    private void cancel() {
         timer.cancel();
         timerListener.onStop();
         timer = null;
         timerListener.showTimer(getMillis());
     }
 
-    public void start() {
+    private void start() {
         timer = new CountDownTimer(getMillis(), 1000) {
 
             @Override
