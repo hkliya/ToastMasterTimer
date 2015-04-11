@@ -42,10 +42,26 @@ public class ToastMasterTimer {
             @Override
             public void onFinish() {
                 timerListener.showRedCard();
+                timer = new CountDownTimer(getLeeway() * 1000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        timerListener.showTimer(millisUntilFinished);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        timerListener.ringTheBell();
+                        timer = null;
+                    }
+                }.start();
             }
         };
         timer.start();
         timerListener.onStart();
+    }
+
+    private int getLeeway() {
+        return 15;
     }
 
     private boolean isTimeToShowYellowCard(long millisUntilFinished) {

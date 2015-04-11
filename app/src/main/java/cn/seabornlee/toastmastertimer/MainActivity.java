@@ -53,7 +53,8 @@ public class MainActivity extends RoboActivity {
 
             @Override
             public void ringTheBell() {
-
+                tv_countDownTimer.setText(getString(R.string.ring_the_bell));
+                onStop();
             }
 
             @Override
