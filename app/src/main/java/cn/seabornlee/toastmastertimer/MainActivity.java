@@ -32,6 +32,9 @@ public class MainActivity extends RoboActivity {
     @InjectView(R.id.btn_time_3mins)
     private Button btn_3_mins;
 
+    @InjectView(R.id.btn_time_5mins)
+    private Button btn_5_mins;
+
     private ToastMasterTimer timer;
 
     @Override
@@ -105,6 +108,13 @@ public class MainActivity extends RoboActivity {
             @Override
             public void onClick(View v) {
                 timer.start(3);
+            }
+        });
+
+        btn_5_mins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer.start(5);
             }
         });
     }

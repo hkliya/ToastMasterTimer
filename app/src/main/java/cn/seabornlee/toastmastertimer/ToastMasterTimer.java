@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 public class ToastMasterTimer {
     private CountDownTimer timer;
     private TimerListener timerListener;
+    private int minutes;
 
     public ToastMasterTimer(TimerListener timerListener) {
         this.timerListener = timerListener;
@@ -17,6 +18,8 @@ public class ToastMasterTimer {
     }
 
     public void start(final int minutes) {
+        this.minutes = minutes;
+
         if (timer != null) {
             timer.cancel();
         }
@@ -59,14 +62,29 @@ public class ToastMasterTimer {
     }
 
     private int getLeeway() {
-        return 15;
+        int leeway = 15;
+        if (minutes > 3) {
+            leeway = 30;
+        }
+
+        return leeway;
     }
 
     private boolean isTimeToShowYellowCard(long millisUntilFinished) {
-        return millisUntilFinished <= 15 * 1000;
+        int threshold = 30;
+        if (minutes > 3) {
+            threshold = 60;
+        }
+
+        return millisUntilFinished <= threshold * 1000;
     }
 
     private boolean isTimeToShowGreenCard(long millisUntilFinished) {
-        return millisUntilFinished <= 30 * 1000;
+        int threshold = 60;
+        if (minutes > 3) {
+            threshold = 2 * 60;
+        }
+
+        return millisUntilFinished <= threshold * 1000;
     }
 }

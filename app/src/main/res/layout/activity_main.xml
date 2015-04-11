@@ -42,4 +42,13 @@
         android:layout_above="@+id/btn_stop"
         android:layout_toRightOf="@+id/btn_time_2mins"
         android:layout_toEndOf="@+id/btn_time_2mins" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5mins"
+        android:id="@+id/btn_time_5mins"
+        android:layout_alignTop="@+id/btn_time_3mins"
+        android:layout_toRightOf="@+id/btn_time_3mins"
+        android:layout_toEndOf="@+id/btn_time_3mins" />
 </RelativeLayout>
