@@ -3,7 +3,6 @@ package cn.seabornlee.toastmastertimer;
 import android.os.CountDownTimer;
 
 public class ToastMasterTimer {
-    private int minutes;
     private CountDownTimer timer;
     private TimerListener timerListener;
 
@@ -11,19 +10,18 @@ public class ToastMasterTimer {
         this.timerListener = timerListener;
     }
 
-    private boolean isRunning() {
-        return timer != null;
-    }
-
-    private void cancel() {
+    public void cancel() {
         timer.cancel();
         timerListener.onStop();
         timer = null;
-        timerListener.showTimer(getMillis());
     }
 
-    private void start() {
-        timer = new CountDownTimer(getMillis(), 1000) {
+    public void start(final int minutes) {
+        if (timer != null) {
+            timer.cancel();
+        }
+
+        timer = new CountDownTimer(minutes * 60 * 1000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -70,21 +68,5 @@ public class ToastMasterTimer {
 
     private boolean isTimeToShowGreenCard(long millisUntilFinished) {
         return millisUntilFinished <= 30 * 1000;
-    }
-
-    private int getMillis() {
-        return minutes * 60 * 1000;
-    }
-
-    public void setTimeInMinutes(int minutes) {
-        this.minutes = minutes;
-    }
-
-    public void toggle() {
-        if (isRunning()) {
-            cancel();
-        } else {
-            start();
-        }
     }
 }

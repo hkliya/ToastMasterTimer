@@ -23,14 +23,20 @@ public class MainActivity extends RoboActivity {
     @InjectView(R.id.tv_timer)
     private TextView tv_countDownTimer;
 
-    @InjectView(R.id.btn_start)
-    private Button btn_start;
+    @InjectView(R.id.btn_stop)
+    private Button btn_stop;
+
+    @InjectView(R.id.btn_time_2mins)
+    private Button btn_2_mins;
+
+    private ToastMasterTimer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final ToastMasterTimer timer = new ToastMasterTimer(new TimerListener() {
+        bindEvents();
+        timer = new ToastMasterTimer(new TimerListener() {
             @Override
             public void showTimer(long millisUntilFinished) {
                 tv_countDownTimer.setText(formatTime(millisUntilFinished));
@@ -59,13 +65,13 @@ public class MainActivity extends RoboActivity {
 
             @Override
             public void onStart() {
-                btn_start.setText("Stop");
                 setBackgroundColor(BLACK);
+                btn_stop.setEnabled(true);
             }
 
             @Override
             public void onStop() {
-                btn_start.setText("Start");
+                btn_stop.setEnabled(false);
             }
 
             private String formatTime(long millisUntilFinished) {
@@ -75,11 +81,20 @@ public class MainActivity extends RoboActivity {
             }
         });
 
-        timer.setTimeInMinutes(1);
-        btn_start.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void bindEvents() {
+        btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timer.toggle();
+                timer.cancel();
+            }
+        });
+
+        btn_2_mins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer.start(2);
             }
         });
     }
