@@ -5,7 +5,6 @@ import android.os.CountDownTimer;
 public class ToastMasterTimer {
     private CountDownTimer timer;
     private TimerListener timerListener;
-    private int minutes;
 
     public ToastMasterTimer(TimerListener timerListener) {
         this.timerListener = timerListener;
@@ -18,11 +17,12 @@ public class ToastMasterTimer {
     }
 
     public void start(final int minutes) {
-        this.minutes = minutes;
 
         if (timer != null) {
             timer.cancel();
         }
+
+        final TimeCalculator timeCalculator = new TimeCalculator(minutes);
 
         timer = new CountDownTimer(minutes * 60 * 1000, 1000) {
 
@@ -30,12 +30,12 @@ public class ToastMasterTimer {
             public void onTick(long millisUntilFinished) {
                 timerListener.showTimer(millisUntilFinished);
 
-                if (isTimeToShowYellowCard(millisUntilFinished)) {
+                if (timeCalculator.isTimeToShowYellowCard(millisUntilFinished)) {
                     timerListener.showYellowCard();
                     return;
                 }
 
-                if (isTimeToShowGreenCard(millisUntilFinished)) {
+                if (timeCalculator.isTimeToShowGreenCard(millisUntilFinished)) {
                     timerListener.showGreenCard();
                 }
             }
@@ -43,7 +43,7 @@ public class ToastMasterTimer {
             @Override
             public void onFinish() {
                 timerListener.showRedCard();
-                timer = new CountDownTimer(getLeeway() * 1000, 1000) {
+                timer = new CountDownTimer(timeCalculator.getLeeway() * 1000, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         timerListener.showTimer(millisUntilFinished);
@@ -59,32 +59,5 @@ public class ToastMasterTimer {
         };
         timer.start();
         timerListener.onStart();
-    }
-
-    private int getLeeway() {
-        int leeway = 15;
-        if (minutes > 3) {
-            leeway = 30;
-        }
-
-        return leeway;
-    }
-
-    private boolean isTimeToShowYellowCard(long millisUntilFinished) {
-        int threshold = 30;
-        if (minutes > 3) {
-            threshold = 60;
-        }
-
-        return millisUntilFinished <= threshold * 1000;
-    }
-
-    private boolean isTimeToShowGreenCard(long millisUntilFinished) {
-        int threshold = 60;
-        if (minutes > 3) {
-            threshold = 2 * 60;
-        }
-
-        return millisUntilFinished <= threshold * 1000;
     }
 }
