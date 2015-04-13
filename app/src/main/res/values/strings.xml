@@ -5,4 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="btn_stop">Stop</string>
     <string name="ring_the_bell">Ring!!!</string>
+    <string name="two_minutes">2mins</string>
+    <string name="three_minutes">3mins</string>
+    <string name="five_minutes">5mins</string>
+    <string name="seven_minutes">7mins</string>
 </resources>

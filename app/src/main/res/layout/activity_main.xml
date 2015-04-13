@@ -28,7 +28,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2mins"
+        android:text="@string/two_minutes"
         android:id="@+id/btn_time_2mins"
         android:layout_above="@+id/btn_stop"
         android:layout_alignParentLeft="true"
@@ -37,7 +37,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3mins"
+        android:text="@string/three_minutes"
         android:id="@+id/btn_time_3mins"
         android:layout_above="@+id/btn_stop"
         android:layout_toRightOf="@+id/btn_time_2mins"
@@ -46,7 +46,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="5mins"
+        android:text="@string/five_minutes"
         android:id="@+id/btn_time_5mins"
         android:layout_alignTop="@+id/btn_time_3mins"
         android:layout_toRightOf="@+id/btn_time_3mins"
@@ -55,7 +55,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="7mins"
+        android:text="@string/seven_minutes"
         android:id="@+id/btn_time_7mins"
         android:layout_alignTop="@+id/btn_time_5mins"
         android:layout_toRightOf="@+id/btn_time_5mins"
