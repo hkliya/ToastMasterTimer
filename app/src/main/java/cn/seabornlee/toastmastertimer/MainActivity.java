@@ -38,6 +38,9 @@ public class MainActivity extends RoboActivity {
     @InjectView(R.id.btn_time_7mins)
     private Button btn_7_mins;
 
+    @InjectView(R.id.btn_time_8mins)
+    private Button btn_8_mins;
+
     @InjectView(R.id.btn_time_10mins)
     private Button btn_10_mins;
 
@@ -128,6 +131,13 @@ public class MainActivity extends RoboActivity {
             @Override
             public void onClick(View v) {
                 timer.start(7);
+            }
+        });
+
+        btn_8_mins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer.start(8);
             }
         });
 
