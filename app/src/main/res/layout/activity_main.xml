@@ -77,4 +77,13 @@
         android:id="@+id/btn_time_10mins"
         android:layout_above="@+id/btn_stop" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12mins"
+        android:id="@+id/btn_time_12mins"
+        android:layout_alignTop="@+id/btn_time_10mins"
+        android:layout_toRightOf="@id/btn_time_10mins"
+        android:layout_toEndOf="@+id/btn_time_10mins" />
+
 </RelativeLayout>
